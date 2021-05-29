@@ -47,7 +47,7 @@ class Favorite_Planet(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
     user= relationship(User)
-    planet_id = Column(Integer, ForeignKey('planet.id'))
+    planet_id = Column(Integer, ForeignKey('planets.id'))
     planet = relationship(Planets)
 
 def to_dict(self):
