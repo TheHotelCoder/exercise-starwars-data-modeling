@@ -8,26 +8,50 @@ from eralchemy import render_er
 
 Base = declarative_base()
 
-class Person(Base):
-    __tablename__ = 'person'
-    # Here we define columns for the table person
-    # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
-
-class Address(Base):
-    __tablename__ = 'address'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
-
-    def to_dict(self):
-        return {}
 
 ## Draw from SQLAlchemy base
+class User(Base):
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250))
+    last_name = Column(String(250))
+    email=Column(String(50), nullable=False)
+    password=Column(String(25), nullable=False)
+
+class Characters(Base):
+    __tablename__ = 'character'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50))
+    eye_color=Column(String(20))
+    gender=Column(String(20))
+    description= Column(String(20))
+
+class Planets(Base):
+    __tablename__ = 'planets'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50))
+    eye_color=Column(String(20))
+    gender=Column(String(20))
+    description= Column(String(20))
+
+class Favorite_Character(Base):
+    __tablename__ = 'favorite_character'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user= relationship(User)
+    character_id = Column(Integer, ForeignKey('character.id'))
+    character = relationship(Characters)
+
+class Favorite_Planet(Base):
+    __tablename__ = 'favorite_planet'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user= relationship(User)
+    planet_id = Column(Integer, ForeignKey('planet.id'))
+    planet = relationship(Planets)
+
+def to_dict(self):
+        return {}
+
+
 render_er(Base, 'diagram.png')
